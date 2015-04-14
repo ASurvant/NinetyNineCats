@@ -30,3 +30,15 @@
 </table>
 
 <a href="<%= edit_cat_url %>"><button>Edit your Cat</button></a>
+<br><br>
+
+<table>
+  <th>
+    <h2>Requested Rentals:</h2>
+  </th>
+  <% @cat.cat_rental_requests.order('start_date').each do |rental| %>
+  <tr>
+    <% rental.start_date %> | <% rental.end_date %>
+  </tr>
+  <% end %>
+</table>

@@ -16,6 +16,8 @@ class CatRentalRequest < ActiveRecord::Base
   validates :status, inclusion: { in: %w(PENDING APPROVED DENIED), message: "I DON'T EVEN THAT STATUS" }, presence: true
   validate :no_overlapping_approved_requests
 
+  after_initialize :set_pending
+
   belongs_to :cat
 
   def overlapping_requests
@@ -28,5 +30,9 @@ class CatRentalRequest < ActiveRecord::Base
 
   def no_overlapping_approved_requests
     (errors[:base] << "Cat is not available on these dates.") unless overlapping_approved_requests.empty?
+  end
+
+  def set_pending
+    @status ||= "PENDING"
   end
 end

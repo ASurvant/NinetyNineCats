@@ -23,5 +23,9 @@ class Cat < ActiveRecord::Base
     (seconds / 31536000).floor
   end
 
+  # def requested_rentals
+  #   cat_rental_requests.where('id = ?', @cat.id).order('start_date')
+  # end
+
   has_many :cat_rental_requests, dependent: :destroy
 end
