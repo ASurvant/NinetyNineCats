@@ -8,6 +8,8 @@
 #  name        :string           not null
 #  sex         :string(1)        not null
 #  description :text
+#  created_at  :datetime
+#  updated_at  :datetime
 #
 
 class Cat < ActiveRecord::Base
@@ -20,4 +22,6 @@ class Cat < ActiveRecord::Base
     seconds = Time.now - Time.parse(birth_date.to_s)
     (seconds / 31536000).floor
   end
+
+  has_many :cat_rental_requests, dependent: :destroy
 end
