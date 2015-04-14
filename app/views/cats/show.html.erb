@@ -1,0 +1,32 @@
+<table>
+  <th>
+    <h1><%= @cat.name %></h1>
+  </th>
+  <tr>
+    <td>
+      <%= @cat.age %> years old
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Born on <%= @cat.birth_date %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <%= @cat.color %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <%= @cat.sex == 'M' ? 'Male' : 'Female' %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <%= @cat.description %>
+    </td>
+  </tr>
+</table>
+
+<a href="<%= edit_cat_url %>"><button>Edit your Cat</button></a>

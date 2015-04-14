@@ -12,12 +12,12 @@
 
 class Cat < ActiveRecord::Base
   validates :birth_date, presence: true
-  validates :color, inclusion: { in: %w(white black red blue cream brown cinnamon fawn), message: "cats don't even that color" }, presence: true
+  validates :color, inclusion: { in: %w(White Black Red Blue Cream Brown Cinnamon Fawn), message: "cats don't even that color" }, presence: true
   validates :name, presence: true
   validates :sex, presence: { in: %w(M F), message: "cats don't even that gender" }, presence: true
 
   def age
-    seconds = Time.now - @birth_date
-    seconds / 31536000
+    seconds = Time.now - Time.parse(birth_date.to_s)
+    (seconds / 31536000).floor
   end
 end

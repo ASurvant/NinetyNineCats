@@ -1,0 +1,43 @@
+<% action_url = @cat.persisted? ? cat_url(@cat) : cats_url %>
+<% form_method = @cat.persisted? ? "PATCH" : "POST" %>
+<% submit_text = @cat.persisted? ? "Fix your Cat" : "Record your Cat!" %>
+
+<h2>Tell us about your Cat</h2>
+<form action="<%= action_url %>" method="post">
+  <input type="hidden" name="_method" value="<%= form_method %>">
+
+  <label for="cat_name">Cat's name</label><br>
+  <input name="cat[name]" id="cat_name" type="text" value="<%= @cat.name %>">
+  <br><br>
+
+  <label>Sex</label><br>
+  <input name="cat[sex]" id="cat_sex_m" type="radio" value="M" <%= "checked" if (@cat.sex == "M") %>>
+  <label for="cat_sex_m">Male</label>
+  <input name="cat[sex]" id="cat_sex_f" type="radio" value="F" <%= "checked" if (@cat.sex == "F") %>>
+  <label for="cat_sex_f">Female</label>
+  <br><br>
+
+  <label>Color</label><br>
+  <select name="cat[color]">
+    <option selected disabled hidden value=''></option>
+    <option <%= "selected" if (@cat.color == "White") %> value="White">White</option>
+    <option <%= "selected" if (@cat.color == "Black") %> value="Black">Black</option>
+    <option <%= "selected" if (@cat.color == "Red") %> value="Red">Red</option>
+    <option <%= "selected" if (@cat.color == "Blue") %> value="Blue">Blue</option>
+    <option <%= "selected" if (@cat.color == "Cream") %> value="Cream">Cream</option>
+    <option <%= "selected" if (@cat.color == "Brown") %> value="Brown">Brown</option>
+    <option <%= "selected" if (@cat.color == "Cinnamon") %> value="Cinnamon">Cinnamon</option>
+    <option <%= "selected" if (@cat.color == "Fawn") %> value="Fawn">Fawn</option>
+  </select>
+  <br><br>
+
+  <label>Birthdate</label><br>
+  <input name="cat[birth_date]" id="cat_birth_date" type="date" value="<%= @cat.birth_date %>"></input>
+  <br><br>
+
+  <label for "cat_biography">Fondest Memories</label><br>
+  <textarea name="cat[description]" id="cat_biography"><%= @cat.description %></textarea>
+  <br><br>
+
+  <input type="submit" value="<%= submit_text %>">
+</form>
