@@ -9,6 +9,7 @@ class CatRentalRequestsController < ApplicationController
 
   def create
     @request = CatRentalRequest.new(request_params)
+    @request.user_id = current_user.id
     if @request.save
       redirect_to cat_url(@request.cat)
     else
@@ -40,8 +41,8 @@ class CatRentalRequestsController < ApplicationController
     end
 
     def verify_ownership
-      unless current_user == User.find(Cat.find(params[:id]).user_id)
-        redirect_to cat_url(params[:id])
+      unless current_user == User.find(Cat.find(current_cat.id).user_id)
+        redirect_to cat_url(current_cat.id)
       end
     end
 

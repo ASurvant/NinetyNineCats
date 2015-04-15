@@ -9,17 +9,19 @@
 #  status     :string           default("PENDING"), not null
 #  created_at :datetime
 #  updated_at :datetime
+#  user_id    :integer          not null
 #
 
 class CatRentalRequest < ActiveRecord::Base
   validates :cat_id, presence: true
   validates :status, inclusion: { in: %w(PENDING APPROVED DENIED), message: "I DON'T EVEN THAT STATUS" }, presence: true
   validate :no_overlapping_approved_requests
+  validates :user_id, presence: true
 
   after_initialize :set_pending
 
   belongs_to :cat
-
+  belongs_to :user
 
   def pending?
     self.status == "PENDING"

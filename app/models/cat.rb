@@ -10,7 +10,7 @@
 #  description :text
 #  created_at  :datetime
 #  updated_at  :datetime
-#  user_id     :integer
+#  user_id     :integer          not null
 #
 
 class Cat < ActiveRecord::Base
@@ -20,7 +20,7 @@ class Cat < ActiveRecord::Base
   validates :sex, presence: { in: %w(M F), message: "cats don't even that gender" }, presence: true
   validates :user_id, presence: true
 
-  has_many :cat_rental_requests, dependent: :destroy
+  has_many :cat_rental_requests
 
   has_one :owner, class_name: 'User', foreign_key: :user_id, primary_key: :id
 
