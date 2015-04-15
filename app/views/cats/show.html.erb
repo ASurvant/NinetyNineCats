@@ -49,10 +49,9 @@
   <% @cat.cat_rental_requests.order('start_date').each do |rental| %>
   <tr><td><center>
     <%= rental.start_date %> | <%= rental.end_date %> | <%= User.find(rental.user_id).user_name %> | <%= rental.status %>
-      <% if !current_user.nil? && owner == current_user %>
+      <% if !current_user.nil? && owner == current_user && rental.pending? %>
         <form action="/cat_rental_requests/<%= rental.id %>/approve" method="post"><%= auth_token %><button>Approve</button></a></form>
         <form action="/cat_rental_requests/<%= rental.id %>/deny" method="post"><%= auth_token %><button>Deny</button></a></form>
-      <% else %>
       <% end %>
   </center></td></tr>
   <% end %>
