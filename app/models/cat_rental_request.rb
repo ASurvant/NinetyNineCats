@@ -20,19 +20,43 @@ class CatRentalRequest < ActiveRecord::Base
 
   belongs_to :cat
 
-  def overlapping_requests
-    CatRentalRequest.where(["NOT ( end_date < :start_date OR :end_date < start_date)", { start_date: self.start_date, end_date: self.end_date }]).where("(:id IS NULL) OR (id != :id)", id: self.id)
+
+  def pending?
+    self.status == "PENDING"
   end
 
-  def overlapping_approved_requests
-    overlapping_requests.where("status = 'APPROVED'")
+  def approve!
+    CatRentalRequest.transaction do
+      self.status = "APPROVED"
+      self.save!
+      overlapping_pending_requests.update_all(status: 'DENIED')
+    end
   end
 
-  def no_overlapping_approved_requests
-    (errors[:base] << "Cat is not available on these dates.") unless overlapping_approved_requests.empty?
+  def deny!
+    self.status = "DENIED"
+    self.save
   end
 
-  def set_pending
-    @status ||= "PENDING"
-  end
+  private
+
+    def overlapping_requests
+      CatRentalRequest.where(["NOT ( end_date < :start_date OR :end_date < start_date)", { start_date: self.start_date, end_date: self.end_date }]).where("(:id IS NULL) OR (id != :id)", id: self.id)
+    end
+
+    def overlapping_approved_requests
+      overlapping_requests.where("status = 'APPROVED'")
+    end
+
+    def overlapping_pending_requests
+      overlapping_requests.where("status = 'PENDING'")
+    end
+
+    def no_overlapping_approved_requests
+      (errors[:base] << "Cat is not available on these dates.") unless overlapping_approved_requests.empty?
+    end
+
+    def set_pending
+      @status ||= "PENDING"
+    end
 end

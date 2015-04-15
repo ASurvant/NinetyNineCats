@@ -33,12 +33,21 @@
 <br><br>
 
 <table>
-  <th>
-    <h2>Requested Rentals:</h2>
-  </th>
-  <% @cat.cat_rental_requests.order('start_date').each do |rental| %>
   <tr>
-    <% rental.start_date %> | <% rental.end_date %>
+    <td><h3>Requested Rentals:</h3></td>
+  </tr><tr>
+    <td><center><u>Start Date</u> | <u>End Date</u> | <u>Status</u></center></td>
   </tr>
+  <% @cat.cat_rental_requests.order('start_date').each do |rental| %>
+  <tr><td><center>
+    <%= rental.start_date %> | <%= rental.end_date %> 
+    <% if rental.pending? %>
+    <br><td>
+      <a href="/cat_rental_requests/<%= rental.id %>/approve"><button>Approve</button></a>
+      <a href="/cat_rental_requests/<%= rental.id %>/deny"><button>Deny</button></a></td>
+    <% else %>
+     | <%= rental.status %>
+    <% end %>
+  </center></td></tr>
   <% end %>
 </table>
