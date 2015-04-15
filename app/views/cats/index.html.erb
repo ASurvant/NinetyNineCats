@@ -6,6 +6,8 @@
       <br><br>
     </li>
   <% end %>
-  <a href="<%= new_cat_url %>"><button>Add your Cat</button></a>
-  <a href="<%= new_cat_rental_request_url %>"><button>Rent a Cat</button></a>
+  <% unless current_user.nil? %>
+    <a href="<%= new_cat_url %>"><button>Add your Cat</button></a>
+    <a href="<%= new_cat_rental_request_url %>"><button>Rent a Cat</button></a>
+  <% end %>
 </ul>

@@ -1,4 +1,7 @@
 class CatRentalRequestsController < ApplicationController
+  before_action :verify_ownership, only: [:approve, :deny]
+  before_action :verify_logged_in, only: [:create, :new]
+
   def new
     @request = CatRentalRequest.new
     render :new
@@ -34,5 +37,15 @@ class CatRentalRequestsController < ApplicationController
 
     def request_params
       params.require(:request).permit(:cat_id, :start_date, :end_date, :status)
+    end
+
+    def verify_ownership
+      unless current_user == User.find(Cat.find(params[:id]).user_id)
+        redirect_to cat_url(params[:id])
+      end
+    end
+
+    def verify_logged_in
+      redirect_to cats_url if current_user.nil?
     end
 end

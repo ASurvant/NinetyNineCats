@@ -4,6 +4,7 @@
 
 <h2>Tell us about your Cat</h2>
 <form action="<%= action_url %>" method="post">
+  <%= auth_token %>
   <input type="hidden" name="_method" value="<%= form_method %>">
 
   <label for="cat_name">Cat's name</label><br>

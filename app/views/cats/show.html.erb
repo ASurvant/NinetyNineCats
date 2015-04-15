@@ -4,6 +4,14 @@
   </th>
   <tr>
     <td>
+      <% owner = User.find(@cat.user_id) %>
+      <% unless !current_user.nil? && owner == current_user %>
+        Owner: <%= owner.user_name %>
+      <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td>
       <%= @cat.age %> years old
     </td>
   </tr>
@@ -43,8 +51,10 @@
     <%= rental.start_date %> | <%= rental.end_date %>
     <% if rental.pending? %>
     <br><td>
-      <form action="/cat_rental_requests/<%= rental.id %>/approve" method="post"><button>Approve</button></a>
-      <form action="/cat_rental_requests/<%= rental.id %>/deny" method="post"><button>Deny</button></a></td>
+      <% if !current_user.nil? && owner == current_user %>
+        <form action="/cat_rental_requests/<%= rental.id %>/approve" method="post"><%= auth_token %><button>Approve</button></a></form>
+        <form action="/cat_rental_requests/<%= rental.id %>/deny" method="post"><%= auth_token %><button>Deny</button></a></form></td>
+      <% end %>
     <% else %>
      | <%= rental.status %>
     <% end %>

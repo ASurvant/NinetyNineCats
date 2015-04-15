@@ -4,6 +4,7 @@
 
 <h2>Request Cat</h2>
 <form action="<%= action_url %>" method="post">
+  <%= auth_token %>
   <input type="hidden" name="_method" value="<%= form_method %>">
 
   <label>Cat</label><br>
