@@ -14,17 +14,26 @@ class User < ActiveRecord::Base
   validates :user_name, presence: true, uniqueness: true
   validates :password_digest, presence: true
 
-  after_initialize :reset_session_token!
+  after_initialize :ensure_session_token
 
+  def self.generate_session_token
+    SecureRandom::urlsafe_base64
+  end
 
   def self.find_by_credentials(user_name, password)
     user = User.find_by(user_name: user_name)
     return nil if user.nil?
-    is_password?(password) ? user : nil
+    user.is_password?(password) ? user : nil
+  end
+
+  def self.find_by_session_token(token)
+    User.find_by(session_token: token)
   end
 
   def reset_session_token!
-    self.session_token = generate_token
+    self.session_token = self.class.generate_session_token
+    self.save!
+    self.session_token
   end
 
   def password=(password)
@@ -36,7 +45,7 @@ class User < ActiveRecord::Base
   end
 
   private
-    def generate_token
-      SecureRandom::urlsafe_base64
+    def ensure_session_token
+      self.session_token ||= self.class.generate_session_token
     end
 end
