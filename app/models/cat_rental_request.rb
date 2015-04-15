@@ -35,7 +35,7 @@ class CatRentalRequest < ActiveRecord::Base
 
   def deny!
     self.status = "DENIED"
-    self.save
+    self.save!
   end
 
   private

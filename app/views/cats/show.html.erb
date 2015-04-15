@@ -40,11 +40,11 @@
   </tr>
   <% @cat.cat_rental_requests.order('start_date').each do |rental| %>
   <tr><td><center>
-    <%= rental.start_date %> | <%= rental.end_date %> 
+    <%= rental.start_date %> | <%= rental.end_date %>
     <% if rental.pending? %>
     <br><td>
-      <a href="/cat_rental_requests/<%= rental.id %>/approve"><button>Approve</button></a>
-      <a href="/cat_rental_requests/<%= rental.id %>/deny"><button>Deny</button></a></td>
+      <form action="/cat_rental_requests/<%= rental.id %>/approve" method="post"><button>Approve</button></a>
+      <form action="/cat_rental_requests/<%= rental.id %>/deny" method="post"><button>Deny</button></a></td>
     <% else %>
      | <%= rental.status %>
     <% end %>
